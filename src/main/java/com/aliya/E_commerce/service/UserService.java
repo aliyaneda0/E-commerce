@@ -16,4 +16,17 @@ public class UserService {
         return userRepository.save(user);
     }
 
+    public User loginUser(String email, String password){
+
+        // to check if user exist or not
+       User user =  userRepository.findByEmail(email);
+
+       if (user != null && user.getPassword().equals(password) ){
+
+           return user;
+
+       }
+       return null;
+    }
+
 }
