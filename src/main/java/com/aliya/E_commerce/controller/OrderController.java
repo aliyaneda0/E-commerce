@@ -26,8 +26,11 @@ public class OrderController {
 
     @GetMapping("/all-orders")
     public List<OrderDTO> getAllOrders (){
-return orderService.getAllOrders();
-
+          return orderService.getAllOrders();
     }
 
+    @PostMapping("/user/{userId}")
+   public List<OrderDTO> getOrderByUser(@PathVariable Long userId){
+        return orderService.getOrderByUser();
+    }
 }

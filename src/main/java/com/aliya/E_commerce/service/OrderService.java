@@ -14,10 +14,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.support.SimpleJpaRepository;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class OrderService {
@@ -64,10 +62,41 @@ public class OrderService {
 
         Orders saveOrder =  orderRepository.save(order);
 
-        return new OrderDTO(saveOrder.getId(), saveOrder.getTotalAmount(), saveOrder.getTotalAmount(),saveOrder.getOrderDate(), saveOrder.getStatus(), )
+        return new OrderDTO(saveOrder.getId(), saveOrder.getTotalAmount(), saveOrder.getStatus(),saveOrder.getOrderDate(),orderItemDTOS);
     }
 
     public List<OrderDTO> getAllOrders() {
-        orderRepository.findAllOrderWithUsers();
+      List<Orders> orders =   orderRepository.findAllOrdersWithUsers();
+      return orders.stream().map(this::convertToDTO).collect(Collectors.toList());
+    }
+
+    private OrderDTO convertToDTO(Orders orders) {
+        List<OrderItemDTO> OrderItems  =  orders.getOrderItems().stream()
+              .map(item->new OrderItemDTO(
+                      item.getProduct().getName(),
+                      item.getProduct().getPrice(),
+                      item.getQuantity())).collect(Collectors.toList());
+
+        return new OrderDTO(
+                orders.getId(),
+                orders.getTotalAmount(),
+                orders.getStatus()!=null? orders.getStatus():"Uknown",
+                orders.getOrderDate(),
+                orders.getUser()!=null? orders.getUser().getName():"Uknown",
+                orders.getUser()!=null? orders.getUser().getEmail():"Uknown",
+                OrderItems
+        );
+    }
+
+    public List<OrderDTO> getOrderByUser(Long userId) {
+        Optional<User> userOp = userRepository.findById(userId);
+        if(userOp.isEmpty())
+        {
+            throw new RuntimeException("user not found");
+        }
+        User user = userOp.get();
+        List <Orders> orderList = orderRepository.findByUser(user);
+            return orderList.stream().map(this::convertToDTO).collect(Collectors.toList());
+
     }
 }

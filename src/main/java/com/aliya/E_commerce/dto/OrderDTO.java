@@ -20,16 +20,23 @@ public class OrderDTO {
 
     private String email;
 
-    private List<OrderItemDTO> orderItem;
+    private List<OrderItemDTO> orderItems;
 
-    public OrderDTO(Long id, double totalAmount, String status, Date orderDate,String  userName,String email, List<OrderItemDTO> orderItem) {
+    public OrderDTO(Long id, double totalAmount, String status, Date orderDate,String  userName,String email, List<OrderItemDTO> orderItems) {
         this.id = id;
         this.userName = userName;
         this.totalAmount = totalAmount;
         this.status = status;
         this.orderDate = orderDate;
         this.email=email;
-        this.orderItem = orderItem;
+        this.orderItems = orderItems;
+    }
+    public OrderDTO(Long id, double totalAmount, String status, Date orderDate, List<OrderItemDTO> orderItems) {
+        this.id = id;
+        this.totalAmount = totalAmount;
+        this.status = status;
+        this.orderDate = orderDate;
+        this.orderItems = orderItems;
     }
 
     public Long getId() {
