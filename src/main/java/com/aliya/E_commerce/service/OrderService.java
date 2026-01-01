@@ -28,9 +28,13 @@ public class OrderService {
     @Autowired
     private ProductRepository productRepository;
 
-    public OrderDTO placeOrder(Long userId, Map<Long, Integer> productQuantities, double totalAmount){
+    @Autowired
+    private OrderRepository orderRepository;
+
+
+    public OrderDTO placeOrder(Long userId, Map<Long, Integer> productQuantities, double totalAmount) {
         User user = userRepository.findById(userId)     //finding user by userid
-                .orElseThrow(()->new RuntimeException("User not found"));
+                .orElseThrow(() -> new RuntimeException("User not found"));
 
         Orders order = new Orders();
         order.setUser(user);
@@ -38,14 +42,13 @@ public class OrderService {
         order.setStatus("Pending");
         order.setTotalAmount(totalAmount);
 
-        List< OrderItem> orderItems= new ArrayList<>();
+        List<OrderItem> orderItems = new ArrayList<>();
         List<OrderItemDTO> orderItemDTOS = new ArrayList<>();
 
 
-        for(Map.Entry<Long,Integer> entry :productQuantities.entrySet())
-        {
+        for (Map.Entry<Long, Integer> entry : productQuantities.entrySet()) {
             Product product = productRepository.findById(entry.getKey())   //finding product by product id
-                    .orElseThrow(()->new RuntimeException("Product not found "));
+                    .orElseThrow(() -> new RuntimeException("Product not found "));
 
             OrderItem orderItem = new OrderItem();
             orderItem.setOrder(order);
@@ -53,6 +56,14 @@ public class OrderService {
             orderItem.setQuantity(entry.getValue());
             orderItems.add(orderItem);
 
+            orderItemDTOS.add(new OrderItemDTO(product.getName(), product.getPrice(), entry.getValue()));
+
         }
+
+        order.setOrderItems(orderItems);
+
+        Orders saveOrder =  orderRepository.save(order);
+
+        return new OrderDTO(saveOrder.getId(), saveOrder.getTotalAmount(), saveOrder.getTotalAmount(),saveOrder.getOrderDate(), saveOrder.getStatus(), )
     }
-}
+ }

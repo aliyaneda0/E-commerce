@@ -22,4 +22,10 @@ public class OrderController {
         return orderService.placeOrder(userId,orderRequest.getProductQuantities(),orderRequest.getTotalAmount());
     }
 
+    @GetMapping("/orders-all")
+    public List<OrderDTO> getAllOrders (){
+
+
+    }
+
 }
