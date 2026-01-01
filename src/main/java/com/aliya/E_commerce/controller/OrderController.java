@@ -7,6 +7,8 @@ import com.aliya.E_commerce.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/order")
 @CrossOrigin("*")
@@ -22,9 +24,9 @@ public class OrderController {
         return orderService.placeOrder(userId,orderRequest.getProductQuantities(),orderRequest.getTotalAmount());
     }
 
-    @GetMapping("/orders-all")
+    @GetMapping("/all-orders")
     public List<OrderDTO> getAllOrders (){
-
+return orderService.getAllOrders();
 
     }
 
