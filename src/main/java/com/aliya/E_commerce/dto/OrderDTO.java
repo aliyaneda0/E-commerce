@@ -73,12 +73,12 @@ public class OrderDTO {
         this.status = status;
     }
 
-    public List<OrderItemDTO> getOrderItem() {
-        return orderItem;
+    public List<OrderItemDTO> getOrderItems() {
+        return orderItems;
     }
 
-    public void setOrderItem(List<OrderItemDTO> orderItem) {
-        this.orderItem = orderItem;
+    public void setOrderItem(List<OrderItemDTO> orderItems) {
+        this.orderItems = orderItems;
     }
 
     public String getUserName() {
