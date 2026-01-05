@@ -80,10 +80,10 @@ public class OrderService {
         return new OrderDTO(
                 orders.getId(),
                 orders.getTotalAmount(),
-                orders.getStatus()!=null? orders.getStatus():"Uknown",
+                orders.getStatus()!=null? orders.getStatus():"Unknown",
                 orders.getOrderDate(),
-                orders.getUser()!=null? orders.getUser().getName():"Uknown",
-                orders.getUser()!=null? orders.getUser().getEmail():"Uknown",
+                orders.getUser()!=null? orders.getUser().getName():"Unknown",
+                orders.getUser()!=null? orders.getUser().getEmail():"Unknown",
                 OrderItems
         );
     }
