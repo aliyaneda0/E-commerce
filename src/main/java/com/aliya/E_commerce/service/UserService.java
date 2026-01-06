@@ -5,6 +5,8 @@ import com.aliya.E_commerce.repo.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 
 @Service
 public class UserService {
@@ -29,4 +31,7 @@ public class UserService {
        return null;
     }
 
+    public List<User> getAllUser() {
+        return userRepository.findAll();
+    }
 }
